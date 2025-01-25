@@ -1,0 +1,60 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url('ruta-de-tu-imagen.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: #333;
+}
+#contenedorLogin, #tablero {
+    background-color: #ffffff;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+h1, h2 {
+    color: #4a4a4a;
+    margin-bottom: 20px;
+}
+
+label, input, button {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+input, button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+button {
+    cursor: pointer;
+    background-color: #0b7697;
+    color: white;
+    font-weight: bold;
+    border: none;
+}
+
+button:hover {
+    background-color: #00aa2b;
+}
+
+#mensajeError {
+    color: red;
+    font-size: 0.9em;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}

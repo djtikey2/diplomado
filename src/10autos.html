@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta: Los 10 Mejores Autos de Bolivia</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <header class="bg-red-600 text-white flex items-center justify-between py-6 px-4">
+        <a href="inicio.html" class="flex items-center">
+            <img class="h-20 mr-4" src="img/logo.jpg" alt="Logo" width="auto">
+            <div>
+                <h1 class="text-5xl font-bold">Encuesta: Los 10 Mejores Autos de Bolivia</h1>
+                <p class="text-lg">Selecciona tus autos favoritos de la lista</p>
+            </div>
+        </a>
+    </header>
+    
+    
+    <script>
+        // Función para cargar datos desde el archivo JSON externo
+        async function cargarDatosEncuesta() {
+            const respuesta = await fetch('autos.json'); // Archivo JSON externo
+            const datos = await respuesta.json();
+            renderizarEncuesta(datos.autos);
+        }
+
+        // Función para renderizar la encuesta en la página
+        function renderizarEncuesta(autos) {
+            const contenedorEncuesta = document.getElementById('encuesta');
+            autos.forEach(auto => {
+                const div = document.createElement('div');
+                div.className = 'bg-white shadow-md rounded-lg p-4';
+                div.innerHTML = `
+                    <label class="flex items-center">
+                        <input type="checkbox" value="${auto}" class="mr-3">
+                        <span>${auto}</span>
+                    </label>
+                `;
+                contenedorEncuesta.appendChild(div);
+            });
+        }
+
+        // Función para guardar la selección en un archivo JSON y mostrarla en la pantalla
+        function guardarEncuesta() {
+            const autosSeleccionados = [];
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+
+            checkboxes.forEach((checkbox) => {
+                autosSeleccionados.push(checkbox.value);
+            });
+
+            const datos = {
+                autosSeleccionados,
+                fecha: new Date().toISOString()
+            };
+
+            // Mostrar los datos seleccionados en pantalla
+            const resultadoDiv = document.getElementById('resultado');
+            resultadoDiv.innerHTML = `
+                <h2 class="text-2xl font-bold mt-6">Resultados de la Encuesta</h2>
+                <ul class="list-disc pl-5 mt-3 text-lg">
+                    ${autosSeleccionados.map(auto => `<li>${auto}</li>`).join('')}
+                </ul>
+            `;
+
+            // Guardar los datos en un archivo JSON
+            const blob = new Blob([JSON.stringify(datos, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'encuesta_autos.json';
+            a.click();
+
+            URL.revokeObjectURL(url);
+            alert('¡Encuesta guardada exitosamente!');
+        }
+
+        // Cargar los datos al cargar la página
+        window.onload = cargarDatosEncuesta;
+    </script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+    
+
+    <main class="container mx-auto my-10 px-4">
+        <section class="mb-10">
+            <form id="encuesta" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Los autos se renderizan dinámicamente desde el archivo JSON -->
+            </form>
+            <button type="button" onclick="guardarEncuesta()" class="mt-6 bg-red-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                Guardar Encuesta
+            </button>
+        </section>
+
+        <section id="resultado" class="bg-white shadow-md rounded-lg p-6 mt-6">
+            <!-- Los resultados se mostrarán aquí -->
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white text-center py-4">
+        <p>&copy; 2025 Encuesta de Carasteristicas de Automoviles Ideales.</p>
+    </footer>
+</body>
+</html>

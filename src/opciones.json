@@ -1,0 +1,23 @@
+{
+    "Vehículos": {
+      "Toyota": ["Prado Lancruiser", "Camioneta Hilux", "Sedan Corolla"],
+      "Susuki": ["Vitara", "Baleno", "Alto"],
+      "Kia": ["Sorento", "Sportage", "Picanto"],
+      "Ford": ["Bronco ", "Territory", "Raptor"]
+    },
+    "Características": {
+      "Prado Lancruiser": ["Caja Mecanica", "Caja Automatica"],
+      "Camioneta Hilux": ["Caja Mecanica", "Caja Automatica"],
+      "Sedan Corolla": ["Caja Mecanica", "Caja Automatica"],
+      "Vitara": ["Caja Mecanica", "Caja Automatica"],
+      "Baleno": ["Caja Mecanica", "Caja Automatica"],
+      "Alto": ["Caja Mecanica", "Caja Automatica"],
+      "sorento": ["Caja Mecanica", "Caja Automatica"],
+      "Sportage": ["Caja Mecanica", "Caja Automatica"],
+      "Picanto": ["Caja Mecanica", "Caja Automatica"],
+      "Bronco": ["Caja Mecanica", "Caja Automatica"],
+      "Territory": ["Caja Mecanica", "Caja Automatica"],
+      "Raptor": ["Caja Mecanica", "Caja Automatica"]
+    }
+  }
+  

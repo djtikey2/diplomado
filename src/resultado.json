@@ -1,0 +1,21 @@
+{
+    "Economía de Combustible": {
+      "Híbrido": "img/hibrido.jpg",
+      "Eléctrico": "img/electrico.jpg",
+      "Coches a Gas": "img/glp.jpg",
+      "Gasolina": "img/gasolina.jpg",
+      "Diesel": "img/diesel.jpg"
+    },
+    "Familias": {
+      "Vagoneta": "img/vagoneta.jpg",
+      "Civilian": "img/civilian.jpg",
+      "Minibus": "img/minivan.jpg",
+      "Camioneta": "img/camioneta.jpg"
+    },
+    "Jóvenes": {
+      "Deportivo": "img/deportivo.jpg",
+      "Motos": "img/deportivo.jpg",
+      "Tuneados": "img/tuneado.jpg"
+    }
+  }
+  

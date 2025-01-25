@@ -1,0 +1,22 @@
+{
+    "vehiculos": [
+      {
+        "id": 1,
+        "tipo": "Sedán",
+        "caracteristicas": "Motor híbrido, diseño moderno, tecnología avanzada",
+        "presupuesto": "$20,000 - $25,000",
+        "uso": "Uso diario"
+      },
+      {
+        "id": 2,
+        "tipo": "SUV",
+        "caracteristicas": "Motor potente, diseño robusto, conectividad avanzada",
+        "presupuesto": "$30,000 - $40,000",
+        "uso": "Viajes familiares"
+      }
+    ]
+  }
+
+
+
+  

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>participa en la encuesta</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  
+</head>
+
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#"></a>
+            <img src="logo.JPG"alt-"logo" width="150px">
+            <li class="nav-item dropdown"></li>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav" id="menu">
+                   
+                    <ul id="menu"></ul> 
+                   
+                    <!--Aqui mi XML-->
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+        <select id="idioma">
+            <option value="es">Espanol</option>
+            <option value="en">English</option>
+
+        </select>
+        <script>
+            let xmlDoc=null;
+
+            function cargaXML(callback) {
+                const xhr=new XMLHttpRequest();
+			    xhr.open("GET", "menu.xml", true);
+			    xhr.onload = function() {
+                    if (xhr.status===200) {
+                        const parser = new DOMParser();
+                        xmlDoc = parser.parseFromString(xhr.responseText, "application/xml");
+                        callback();
+                    }
+                    else {
+                        console.error("No puedo cargar");
+                    }
+                }
+                xhr.send();
+            }
+
+            function cambioLenguaje(lenguaje) {
+                if(!xmlDoc) return;
+
+                const menu = document.getElementById("menu");
+                const items = xmlDoc.getElementsByTagName("item");
+                menu.innerHTML = "";
+                Array.from(items).forEach(item => {
+                    const id = item.getAttribute("id");
+                    const translation = item.getElementsByTagName(lenguaje)[0].textContent;
+                    if (translation) {
+                        const li = document.createElement("li");
+                        li.textContent = translation;
+                        menu.appendChild(li);
+                    }
+                });
+                const educontenido = xmlDoc.querySelector(`text[id="educontenido"] > ${lenguaje}`)?.textContent;
+               
+                if (educontenido) {
+                    document.getElementById("educontenido").textContent = educontenido;
+                }
+            }
+
+            //idioma
+            document.getElementById('idioma').addEventListener('change', (event)=>{
+                cambioLenguaje(event.target.value);
+            });
+
+            cargaXML(()=>{
+                cambioLenguaje('es');
+            });         
+        </script>
+		</nav>
+  <div class="container mt-4">
+    <h1>Participa en la Encuesta</h1>
+
+    <!-- Formulario -->
+    <form id="vehiculosForm" class="mb-4">
+      <div class="mb-3">
+        <label for="tipo" class="form-label">Tipo de Vehículo</label>
+        <input type="text" id="tipo" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="caracteristicas" class="form-label">Características Deseadas</label>
+        <textarea id="caracteristicas" class="form-control" required></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="presupuesto" class="form-label">Presupuesto Estimado</label>
+        <input type="text" id="presupuesto" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="uso" class="form-label">Uso Principal del Vehículo</label>
+        <input type="text" id="uso" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Agregar</button>
+    </form>
+
+    <!-- Tabla -->
+    <table class="table table-bordered" id="vehiculosTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo</th>
+          <th>Características</th>
+          <th>Presupuesto</th>
+          <th>Uso</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  
+
+  <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script>
+            const xhr=new XMLHttpRequest();
+			xhr.open("GET", "menu.xml", true);
+			xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const xmlDoc = xhr.responseXML;
+                    const items = xmlDoc.getElementsByTagName("item");
+                    let menuHTML="";
+                    for (let i = 0; i < items.length; i++) {
+                        const nombre = items[i].getElementsByTagName("nombre")[0].textContent;
+                        const link = items[i].getElementsByTagName("link")[0].textContent;
+                        menuHTML+=`
+                            <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="${link}">${nombre}</a>
+                            </li>
+                            `;
+                    }
+                    document.getElementById("menu").innerHTML=menuHTML;
+                }
+                else {
+                    console.error("Error");
+                }
+            };
+            xhr.send();
+        </script>
+</body>
+</html>

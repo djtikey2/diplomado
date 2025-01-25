@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comparación de Autos</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="estilos3.css">
+   </head>
+    </script>
+        <!-- selector de lenguaje español - ingles-->
+         
+        <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <img src="img/logo.jpg" alt="logo" width="100px">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#barraNavegacion" aria-controls="barraNavegacion" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="barraNavegacion">
+                <ul id="menu" class="navbar-nav"></ul>
+                <!-- Selector de idioma -->
+                <div class="ms-auto">
+                    <select id="selectorIdioma" class="form-select">
+                        <option value="es">Español</option>
+                        <option value="en">English</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <header class="bg-primary text-white text-center py-4">
+        <h6 data-clave="tituloPrincipal"></h6>
+        <p class="lead" data-clave="subtituloPrincipal"></p>
+    </header>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p data-clave="piePagina"></p>
+    </footer>
+
+    <script>
+        // Función para cargar el menú desde menu.xml
+        function cargarMenu(idioma = "es") {
+            fetch("menu.xml")
+                .then(respuesta => respuesta.text())
+                .then(datos => {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(datos, "application/xml");
+                    const elementos = xmlDoc.getElementsByTagName("item");
+                    const menu = document.getElementById("menu");
+                    menu.innerHTML = ""; // Limpiar el menú antes de llenarlo
+
+                    // Poblar el menú
+                    Array.from(elementos).forEach(elemento => {
+                        const nombre = elemento.querySelector(idioma).textContent;
+                        const enlace = elemento.querySelector("link").textContent;
+                        const li = document.createElement("li");
+                        li.className = "nav-item";
+                        li.innerHTML = `<a class="nav-link" href="${enlace}">${nombre}</a>`;
+                        menu.appendChild(li);
+                    });
+                })
+                .catch(error => console.error("Error al cargar el menú:", error));
+        }
+
+        // Selector de idioma
+        const selectorIdioma = document.getElementById("selectorIdioma");
+        selectorIdioma.addEventListener("change", (evento) => {
+            const idiomaSeleccionado = evento.target.value;
+            cargarMenu(idiomaSeleccionado);
+        });
+
+        // Idioma predeterminado al cargar la página
+        document.addEventListener("DOMContentLoaded", () => {
+            const idiomaPredeterminado = "es";
+            selectorIdioma.value = idiomaPredeterminado;
+            cargarMenu(idiomaPredeterminado);
+        });
+    </script>
+        
+    </script>
+    <script src="menu.xml"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        const xhr=new XMLHttpRequest();
+        xhr.open("GET", "menu.xml", true);
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                const xmlDoc = xhr.responseXML;
+                const items = xmlDoc.getElementsByTagName("item");
+                let menuHTML="";
+                for (let i = 0; i < items.length; i++) {
+                    const nombre = items[i].getElementsByTagName("nombre")[0].textContent;
+                    const link = items[i].getElementsByTagName("link")[0].textContent;
+                    menuHTML+=`
+                        <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="${link}">${nombre}</a>
+                        </li>
+                        `;
+                }
+                document.getElementById("menu").innerHTML=menuHTML;
+            }
+            else {
+                console.error("Error");
+            }
+        };
+        xhr.send();
+    </script>
+    <header>
+        <h1>Comparar Autos</h1>
+    </header>
+    <main>
+        <section id="comparacion">
+            <h2>Compara las especificaciones de dos autos</h2>
+            <div class="seleccion">
+                <div class="auto">
+                    <h3>Auto 1</h3>
+                    <label for="marca1">Marca:</label>
+                    <select id="marca1" onchange="actualizarDatos(1)">
+                        <option value="toyota">Toyota</option>
+                        <option value="nissan">Nissan</option>
+                        <option value="kia">Kia</option>
+                    </select>
+                    <label for="tipo1">Tipo:</label>
+                    <select id="tipo1" onchange="actualizarDatos(1)">
+                        <option value="vagoneta">Vagoneta</option>
+                        <option value="camioneta">Camioneta</option>
+                        <option value="suv">SUV</option>
+                    </select>
+                </div>
+                <div class="auto">
+                    <h3>Auto 2</h3>
+                    <label for="marca2">Marca:</label>
+                    <select id="marca2" onchange="actualizarDatos(2)">
+                        <option value="toyota">Toyota</option>
+                        <option value="nissan">Nissan</option>
+                        <option value="kia">Kia</option>
+                    </select>
+                    <label for="tipo2">Tipo:</label>
+                    <select id="tipo2" onchange="actualizarDatos(2)">
+                        <option value="vagoneta">Vagoneta</option>
+                        <option value="camioneta">Camioneta</option>
+                        <option value="suv">SUV</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+        <section id="resultado">
+            <h2>Resultados</h2>
+            <div class="detalles">
+                <div id="especificaciones1" class="auto-detalle">
+                    <h3>Auto 1</h3>
+                    <img id="imagen1" src="" alt="Imagen Auto 1">
+                    <ul>
+                        <li>Motor: <span id="motor1"></span></li>
+                        <li>Tracción: <span id="traccion1"></span></li>
+                        <li>Caja: <span id="caja1"></span></li>
+                        <li>Versión: <span id="version1"></span></li>
+                        <li>Velocidad Máxima: <span id="velocidad1"></span> km/h</li>
+                    </ul>
+                </div>
+                <div id="especificaciones2" class="auto-detalle">
+                    <h3>Auto 2</h3>
+                    <img id="imagen2" src="" alt="Imagen Auto 2">
+                    <ul>
+                        <li>Motor: <span id="motor2"></span></li>
+                        <li>Tracción: <span id="traccion2"></span></li>
+                        <li>Caja: <span id="caja2"></span></li>
+                        <li>Versión: <span id="version2"></span></li>
+                        <li>Velocidad Máxima: <span id="velocidad2"></span> km/h</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>© 2025 Encuesta de Carasteristicas de Automoviles ideales. Todos los derechos reservados.</p>
+    </footer>
+    <script src="script.js"></script>
+
+</body>
+</html>

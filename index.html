@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Inicio de Sesión</title>
+    <link rel="stylesheet" href="estilologin.css">
+    <script src="login.js" defer></script>
+</head>
+<body>
+    <!-- Contenedor de Login -->
+    <div id="contenedorLogin">
+        <h1>Iniciar Sesión</h1>
+        <form id="formularioLogin">
+            <label for="usuario">Usuario:</label>
+            <input type="text" id="usuario" required>
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena" required>
+            <button type="submit">Ingresar</button>
+        </form>
+        <p id="mensajeError"></p>
+    </div>
+
+    <!-- Tablero -->
+    <div id="tablero" style="display: none;">
+        <h1 id="mensajeBienvenida"></h1>
+
+        <!-- Panel de administrador -->
+        <div id="panelAdministrador" style="display: none;">
+            <h2>Panel de Administración</h2>
+            <ul id="listaDatosFormulario"></ul>
+          <!--    <button id="botonCerrarSesion">Cerrar Sesión</button> -->
+         <button id="botonIrPagina">Ir a Página</button>
+        </div>
+
+        <!-- Perfil de usuario -->
+        <div id="perfilUsuario" style="display: none;">
+            <h2>Perfil Personal</h2>
+            <p><strong>Nombre de usuario:</strong> <span id="perfilNombreUsuario"></span></p>
+            <p><strong>Rol:</strong> <span id="perfilRol"></span></p>
+        </div>
+
+        <!-- Botones -->
+         <button id="botonCerrarSesion"><a href="index.html">Cerrar Sesión</a></button>
+      <!--   ;<button id="botonIrPagina">Ir a Página</button>-->
+</body>
+</html>

@@ -1,0 +1,416 @@
+<html>
+    <head>
+        <title>Menu propio</title>
+      
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+       
+        <link rel="stylesheet" href="./output.css">  
+        <style>
+            h6.text-center {
+                font-size: 5rem; 
+                
+            }
+            h3 {
+                font-size: 2rem; 
+                
+            }
+           
+       
+             img {
+            margin: auto;
+             }
+         </style>
+        </style>
+    </head>
+    <body>
+
+
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="#"></a>
+                <img src="img/logo.jpg"alt-"logo" width="100px">
+                <li class="nav-item dropdown"></li>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<div class="navbar-nav" id="menu">
+                       
+                        <ul id="menu"></ul>
+                        <!--Aqui mi XML-->
+
+					</div>
+				</div>
+			</div>
+		</nav>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <script>
+            const xhr=new XMLHttpRequest();
+			xhr.open("GET", "menu.xml", true);
+			xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const xmlDoc = xhr.responseXML;
+                    const items = xmlDoc.getElementsByTagName("item");
+                    let menuHTML="";
+                    for (let i = 0; i < items.length; i++) {
+                        const nombre = items[i].getElementsByTagName("nombre")[0].textContent;
+                        const link = items[i].getElementsByTagName("link")[0].textContent;
+                        menuHTML+=`
+                            <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="${link}">${nombre}</a>
+                            </li>
+                            `;
+                    }
+                    document.getElementById("menu").innerHTML=menuHTML;
+                }
+                else {
+                    console.error("Error");
+                }
+            };
+            xhr.send();
+        </script>
+
+        
+        <!-- selector de lenguaje español - ingles-->
+         
+        <!-- Barra de navegación -->
+    <!--<nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <img src="img/.jpg" alt="logo" width="100px">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#barraNavegacion" aria-controls="barraNavegacion" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="barraNavegacion">
+                <ul id="menu" class="navbar-nav"></ul>-->
+                <!-- Selector de idioma -->
+                <div class="ms-auto">
+                    <select id="selectorIdioma" class="form-select">
+                        <option value="es">Español</option>
+                        <option value="en">English</option>
+                    </select>
+                    <!-- Información del usuario -->
+                    <div class="user-info">
+                        <img src="img/avatar.png" alt="icono" id="userAvatar">
+                        <span id="userName"></span>
+                        <a href="../index.html" class="btn btn-secondary">Cerrar Sesión</a>
+
+                       <!-- <a href="toyota.html" class="btn btn-secondary">Ver Autos</a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Contenido principal -->
+    <header class="bg-primary text-white text-center py-4">
+        <h6 data-clave="tituloPrincipal"></h6>
+        <p class="lead" data-clave="subtituloPrincipal"></p>
+    </header>
+
+
+
+    <footer class="bg-dark text-white text-center py-3">
+        <p data-clave="piePagina"></p>
+    </footer>
+
+    <script>
+        // Función para cargar el menú desde menu.xml
+        function cargarMenu(idioma = "es") {
+            fetch("menu.xml")
+                .then(respuesta => respuesta.text())
+                .then(datos => {
+                    const parser = new DOMParser();
+                    const xmlDoc = parser.parseFromString(datos, "application/xml");
+                    const elementos = xmlDoc.getElementsByTagName("item");
+                    const menu = document.getElementById("menu");
+                    menu.innerHTML = ""; // Limpiar el menú antes de llenarlo
+
+                    // Poblar el menú
+                    Array.from(elementos).forEach(elemento => {
+                        const nombre = elemento.querySelector(idioma).textContent;
+                        const enlace = elemento.querySelector("link").textContent;
+                        const li = document.createElement("li");
+                        li.className = "nav-item";
+                        li.innerHTML = `<a class="nav-link" href="${enlace}">${nombre}</a>`;
+                        menu.appendChild(li);
+                    });
+                })
+                .catch(error => console.error("Error al cargar el menú:", error));
+        }
+
+        // Selector de idioma
+        const selectorIdioma = document.getElementById("selectorIdioma");
+        selectorIdioma.addEventListener("change", (evento) => {
+            const idiomaSeleccionado = evento.target.value;
+            cargarMenu(idiomaSeleccionado);
+        });
+
+        // Idioma predeterminado al cargar la página
+        document.addEventListener("DOMContentLoaded", () => {
+            const idiomaPredeterminado = "es";
+            selectorIdioma.value = idiomaPredeterminado;
+            cargarMenu(idiomaPredeterminado);
+        });
+    </script>
+         <!-- CARRUSEL DE FOTOS Sugerencias y soporte -->
+        <div id="myCarousel" class="carousel slide" data-ride="carousel">
+          
+            <ol class="carousel-indicators">
+              <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+              <li data-target="#myCarousel" data-slide-to="1"></li>
+              <li data-target="#myCarousel" data-slide-to="2"></li>
+            </ol>
+          
+       
+            <div class="carousel-inner">
+              <div class="item active">
+                <img src="img/celica.jpg" alt="celica">
+              </div>
+          
+              <div class="item">
+                <img src="img/kia.jpg" alt="kia">
+              </div>
+          
+              <div class="item">
+                <img src="img/frontier2.jpg" alt="frontier2">
+              </div>
+            </div>
+          
+            
+            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          
+        </div>
+
+
+
+
+        <header class="bg-primary text-white text-center py-4">
+            <h6 data-key="texsup"> </h6>
+            <p class="lead" data-key="texsup2"></p>
+            
+        </header>
+    
+
+        <main class="container my-5">
+            <section>
+                <p data-key="intro"></p>
+            </section>
+    
+            <section class="mt-5">
+                <h3 data-key="suzukiTitle"></h3>
+                <p data-key="suzukiDescription"></p>
+            </section>
+        </main>
+
+
+
+        <main class="container my-5">
+           
+            <section>
+                <p data-key="intro"></p>
+                <p data-key="intro2"></p>
+                
+            </section>
+    
+            
+            <section class="mt-5">
+               
+                <div class="row justify-content-center">
+                    <div class="container my-5">
+
+                       
+                        <p data-key="suzukiDes"></p>
+                        <p data-key="suzukiDes2"></p>
+
+                       
+                        
+                        <a href="susuki.html" class="btn btn-primary">Ver Autos</a>
+                    </div>
+                    <div class="col-md-6">
+                        <img src="./img/vitara.jpg" alt="Kia Telluride" class="img-fluid rounded d-block">
+                    </div>
+                </div>
+            </section>
+            
+    
+            
+            <section class="mt-5">
+              
+                <div class="row justify-content-center">
+                    <div class="container my-5">
+                        <h3>Toyota</h3>
+                        <p data-key="toyodes"></p>
+                        
+                        <img src="img/toyota.jpg" alt="Toyota Corolla Hybrid" class="img-fluid rounded d-block">
+                    </div>
+                    <div class="container my-5">
+                        <ul class="text-start">
+                            <li data-key="toyodes1"></li>
+                            
+                            
+                        </ul>
+                        <a href="toyota.html" class="btn btn-secondary">Ver Autos</a>
+                        
+                    </div>
+                </div>
+            </section>
+    
+    
+            
+    
+            
+            <section class="mt-5">
+               
+                <div class="container my-5">
+                    <div class="col-md-5">
+                        <h3 data-key="encuesta"></h3>
+                        <p data-key="descubre"></p>
+                    </div>
+                    
+                </div>
+            </section>
+    
+         
+            <section class="container my-5">
+                
+                <p data-key="encuentra"></p>
+                <a href="10autos.html" class="btn btn-info">Descubre más</a>
+            </section>
+        </main>
+    
+        <footer class="bg-dark text-white text-center py-5">
+            <p> </p>
+        </footer>
+    
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+
+ 
+
+    </body>
+
+<footer class="tw-bg-gray-800 text-white py-8">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Sugerencias y soporte -->
+            <div>
+                <h3 data-key="sugerencia"></h3>
+              
+            </div>
+            <!-- Redes sociales -->
+            <div>
+                <h3 data-key="redes"></h3>
+                <ul class="space-y-2">
+                    <li><a href="https://www.facebook.com/photo?fbid=3881463495410839&set=pcb.3881463695410819" class="text-gray-400 hover:text-white">Facebook</a></li>
+                    
+                  
+                   
+                </ul>
+            </div>
+            <!-- Atención -->
+            <div>
+                <h3 data-key="atencion"></h3>
+                <p data-key="horario"></p>
+                <p class="text-sm text-gray-400">fono: +591 65488948</p>
+            </div>
+            <!-- Reportar problemas -->
+            <div>
+                <h3 data-key="reportar"></h3>
+                
+            </div>
+        </div>
+        <div class="mt-8 border-t border-gray-700 pt-4 text-center">
+            <p data-key="pie"></p>
+        </div>
+    </div>
+  </footer>
+<<<<<<< HEAD
+
+
+
+        
+
+<script>
+// Language Data
+const translations = {
+    es: {
+        
+        texsup:"Autos mas vendidos en Bolivia",
+        texsup2:"Mira los aspectos más destacados de nuestras pruebas y encuestas",
+        intro:"En Bolivia, el parque automotriz cuenta con más de 2 millones de autos y una amplia variedad de marcas, siendo la mayoría provenientes de Asia. Sin embargo, Toyota, Nissan y Suzuki son las marcas que lideran el mercado boliviano.",
+        intro2:"Esta lista de los autos mas vendidos en toda Bolivia se basan en una encuesta realizada en toda Bolivia donde se determino cuales son los mejores autos del Mercado .",
+        susukiDes:"Suzuki es la marca más vendida en Bolivia representando el 30% del mercado total. Tres de cada diez autos son de esta marca y los modelos destacados son SUVs, minivans y sedanes; en general, vehículos familiares para moverse dentro de la ciudad.",
+        susukiDes2:"Además, Suzuki tiene precios accesibles y es alrededor del 20% a 30% menos costosa que otras opciones. Cuenta con una amplia disponibilidad de autopartes y diversos concesionarios y puntos de reparación por todo el país. La comercialización principal se realiza a través de Imcruz, empresa que actualmente es la concesionaria más grande y conocida en Bolivia.",
+        toyodes:"Toyota, en particular, ha establecido su presencia como una marca confiable y de alta calidad, ganándose la preferencia de los consumidores gracias a su continua innovación, confiabilidad y compromiso con la excelencia. Toyota ha logrado posicionarse como líder indiscutible en el mercado boliviano, y convertirse en la marca más querida por los bolivianos, según estudios del sector realizados en febrero de este año. De esta manera, Toyota se erige como la primera opción para quienes buscan un vehículo que combine confiabilidad, durabilidad y una garantía que respalde cada kilómetro recorrido. Este logro es el resultado de una sólida reputación construida a lo largo de varias décadas de presencia en el mercado boliviano.",
+        toyodes1:"Autos Toyota más Vendidos en Bolivia Toyota ha consolidado una sólida presencia en el mercado boliviano, destacando por su fiabilidad, durabilidad y eficiencia. Entre los modelos más populares encontramos:",
+        encuesta:"Encuesta de los 10 autos mas vendidos",
+        descubre:"Descubre los vehículos que destacan por su durabilidad y rendimiento.",
+        encuentra:"Encuentra vehículos adaptados para personas altas o de baja estatura y con los asientos más cómodos.",
+        sugerencia:"Sugerencias y soporte",
+        redes:"Redes Sociales",
+        atencion:"atencion",
+        horario:"Horario de atencion: Lunes a Viernes, 9:00 AM - 18:00 PM.",
+        reportar:"Reportar problemas",
+        pie:" 2025 Encuesta de Carasteristicas de Automoviles ideales. Todos los derechos reservados."
+        
+    },
+    en: {
+        
+        texsup:"Best selling cars in Bolivia",
+        texsup2:"See highlights from our tests and surveys",
+        intro:"In Bolivia, the automotive fleet has more than 2 million cars and a wide variety of brands, the majority coming from Asia. However, Toyota, Nissan and Suzuki are the brands that lead the Bolivian market.",
+        intro2:"This list of the best-selling cars in all of Bolivia is based on a survey carried out throughout Bolivia where it was determined which are the best cars on the market.",
+        susukiDes:"Suzuki is the best-selling brand in Bolivia, representing 30% of the total market. Three out of every ten cars are from this brand and the featured models are SUVs, minivans and sedans; In general, family vehicles to move within the city.",
+        susukiDes2:"Additionally, Suzuki has affordable prices and is about 20% to 30% less expensive than other options. It has a wide availability of auto parts and various dealerships and repair points throughout the country. The main marketing is carried out through Imcruz, a company that is currently the largest and best-known dealership in Bolivia.",
+        toyodes:"Toyota, in particular, has established its presence as a reliable, high-quality brand, earning consumer preference thanks to its continuous innovation, reliability and commitment to excellence. Toyota has managed to position itself as the undisputed leader in the Bolivian market, and become the most loved brand by Bolivians, according to sector studies carried out in February of this year. In this way, Toyota stands as the first option for those looking for a vehicle that combines reliability, durability and a warranty that supports every kilometer traveled. This achievement is the result of a solid reputation built over several decades of presence in the Bolivian market.",
+        toyodes1:"Best Selling Toyota Cars in Bolivia Toyota has consolidated a solid presence in the Bolivian market, standing out for its reliability, durability and efficiency. Among the most popular models we find:",
+        encuesta:"Survey of the 10 best-selling cars",
+        descubre:"Discover vehicles that stand out for their durability and performance.",
+        encuentra:"Find vehicles adapted for tall or short people and with the most comfortable seats.",
+        sugerencia:"Suggestions and support",
+        redes:"Social networks",
+        atencion:"Attention",
+        horario:"Business hours: Monday to Friday, 9:00 AM - 18:00 PM.",
+        reportar:"Report problems",
+        pie:" 2025 Ideal Car Characteristics Survey. All rights reserved.",
+       
+    }
+};
+
+// Function to switch language
+const languageSwitcher = document.getElementById("selectorIdioma");
+languageSwitcher.addEventListener("change", (e) => {
+    const lang = e.target.value;
+    document.querySelectorAll("[data-key]").forEach(el => {
+        const key = el.getAttribute("data-key");
+        el.textContent = translations[lang][key];
+    });
+});
+
+// Default language on load
+document.addEventListener("DOMContentLoaded", () => {
+    languageSwitcher.value = "es";
+    languageSwitcher.dispatchEvent(new Event("change"));
+});
+</script>
+
+
+
+</html>
+=======
+</html>
+>>>>>>> ce35170da671e8e2a2c5cb23f2d16dd7ad84b58f

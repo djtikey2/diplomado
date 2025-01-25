@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+    <item>
+        <nombre>
+            <es>INICIO</es>
+            <en>HOME</en>
+        </nombre>
+        <link>inicio.html</link>
+    </item>
+
+    <item>
+        <nombre>
+            <es>PARTICIPA EN LA ENCUESTA</es>
+            <en>TAKE THE SURVEY</en>
+        </nombre>
+        <link>pracipaenlaencuesta.html</link>
+    </item>
+
+    <item>
+        <nombre>
+            <es>RESULTADOS PERSONALES</es>
+            <en>PERSONAL RESULTS</en>
+        </nombre>
+        <link>resultadospersonales.html</link>
+    </item>
+
+    <item>
+        <nombre>
+            <es>ESTADISTICAS GENERALES</es>
+            <en>GENERAL STATISTICS</en>
+        </nombre>
+        <link>estadisticasgenerales.html</link>
+    </item>
+
+    <item>
+        <nombre>
+            <es>RECOMENDACION</es>
+            <en>RECOMMENDATION</en>
+        </nombre>
+        <link>recomendacion.html</link>
+    </item>
+
+    <item>
+        <nombre>
+            <es>RECURSOS</es>
+            <en>RESOURCES</en>
+        </nombre>
+        <link>recursos.html</link>
+    </item>
+
+</menu>
